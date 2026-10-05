@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI วิเคราะห์คุณภาพสารเคมี – Storytelling Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#f6f7f2;--ink:#14231f;--mut:#5d6b66;--card:#fff;--line:#d9ddd2;--acc:#0f5c4d;--hi:#d8db6a;--bad:#c2410c}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1815;--ink:#eef2e6;--mut:#9fb0a8;--card:#15241f;--line:#2a3d36;--acc:#7fd1b9;--hi:#d8db6a;--bad:#f59e6b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai',system-ui,sans-serif;line-height:1.65}
+main{max-width:1000px;margin:auto;padding:32px 20px 64px}
+header h1{font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.2;margin:0 0 8px}
+header p{color:var(--mut);max-width:60ch;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:28px 0}
+.kpi{background:var(--card);border:1px solid var(--line);padding:16px}
+.kpi b{display:block;font-size:34px;font-weight:800;color:var(--acc)}.kpi span{color:var(--mut);font-size:14px}
+.kpi.hi{background:var(--hi);color:#14231f;border-color:var(--hi)}.kpi.hi b,.kpi.hi span{color:#14231f}
+section{margin-top:44px}section h2{font-size:24px;margin:0 0 4px}section>p{margin:0 0 14px;color:var(--mut);max-width:65ch}
+.box{background:var(--card);border:1px solid var(--line);padding:16px;height:340px;position:relative}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:720px){.two{grid-template-columns:1fr}}
+select{font:inherit;padding:6px 10px;background:var(--card);color:var(--ink);border:1px solid var(--line);margin-bottom:12px}
+footer{margin-top:48px;color:var(--mut);font-size:14px;border-top:1px solid var(--line);padding-top:14px}
+</style></head><body><main>
+<header><h1>ผลทดลองสารเคมีที่ผิดพลาด ทำให้เสียทั้งเวลาและเงิน</h1>
+<p>เรื่องราวของ “AI วิเคราะห์คุณภาพสารเคมี” ตลอดปี 2025: จากการตรวจด้วยมือที่ช้าและพลาดง่าย สู่ระบบที่เร็วกว่าและแม่นกว่า จนเกิดรายได้ต่อเนื่อง</p></header>
+<div class="kpis" id="kpis"></div>
+<label for="seg">ดูตามกลุ่มลูกค้า: </label><select id="seg"></select>
+
+<section><h2>1. ปัญหา: การตรวจด้วยมือใช้เวลานานและพลาดบ่อย</h2>
+<p>ก่อนใช้ AI ตัวอย่างหนึ่งชุดใช้เวลาเฉลี่ยเกือบ 2 วัน และมีความผิดพลาดราว 8% ซึ่งส่งต่อไปถึงผู้บริโภคได้</p>
+<div class="two"><div class="box"><canvas id="c1"></canvas></div><div class="box"><canvas id="c2"></canvas></div></div></section>
+
+<section><h2>2. ทางออก: AI เรียนรู้จากข้อมูลจริงและแม่นขึ้นทุกเดือน</h2>
+<p>เมื่อผู้เชี่ยวชาญช่วยตรวจสอบและป้อนข้อมูลกลับ อัตราผิดพลาดของ AI ลดลงต่อเนื่อง ขณะที่จำนวนตัวอย่างเพิ่มขึ้น</p>
+<div class="box"><canvas id="c3"></canvas></div></section>
+
+<section><h2>3. ผู้ใช้งาน: โรงงานคือกลุ่มที่ใช้มากที่สุด</h2>
+<p>สัดส่วนตัวอย่างที่ส่งเข้าวิเคราะห์ตลอดปี แยกตามกลุ่มลูกค้า</p>
+<div class="two"><div class="box"><canvas id="c4"></canvas></div><div class="box"><canvas id="c5"></canvas></div></div></section>
+
+<section><h2>4. ผลลัพธ์ทางธุรกิจ: รายได้เติบโตจาก 3 ช่องทาง</h2>
+<p>ค่าสมาชิกเป็นฐานรายได้ ส่วนค่าบริการตามการใช้งาน (API) โตเร็วที่สุด หน่วย: พันบาท</p>
+<div class="box"><canvas id="c6"></canvas></div></section>
+<footer>ข้อมูลในแดชบอร์ดนี้เป็นข้อมูลจำลองเพื่อการเรียน (data/*.csv) | วิชา Data Warehousing Concepts | Week 11 Mini Project</footer>
+</main>
+<script>
+const D={"months": ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."], "segs": ["นักวิจัย", "วิศวกรควบคุมคุณภาพ", "โรงงานเกี่ยวกับสารเคมี"], "lab": [[1, "ม.ค.", "นักวิจัย", 291, 46.9, 22.3, 7.1, 4.5], [1, "ม.ค.", "วิศวกรควบคุมคุณภาพ", 410, 46.3, 22.0, 7.1, 4.5], [1, "ม.ค.", "โรงงานเกี่ยวกับสารเคมี", 605, 46.5, 21.8, 8.7, 4.3], [2, "ก.พ.", "นักวิจัย", 312, 49.8, 21.8, 8.2, 4.2], [2, "ก.พ.", "วิศวกรควบคุมคุณภาพ", 492, 46.3, 21.6, 7.6, 4.0], [2, "ก.พ.", "โรงงานเกี่ยวกับสารเคมี", 665, 47.9, 21.5, 7.4, 4.3], [3, "มี.ค.", "นักวิจัย", 361, 48.2, 19.9, 7.1, 3.7], [3, "มี.ค.", "วิศวกรควบคุมคุณภาพ", 472, 50.1, 19.7, 7.6, 4.0], [3, "มี.ค.", "โรงงานเกี่ยวกับสารเคมี", 761, 47.8, 20.4, 8.4, 3.8], [4, "เม.ย.", "นักวิจัย", 385, 49.2, 19.5, 8.5, 3.5], [4, "เม.ย.", "วิศวกรควบคุมคุณภาพ", 574, 46.7, 18.5, 8.5, 3.5], [4, "เม.ย.", "โรงงานเกี่ยวกับสารเคมี", 824, 46.2, 19.0, 8.5, 3.7], [5, "พ.ค.", "นักวิจัย", 432, 47.9, 18.0, 8.2, 3.4], [5, "พ.ค.", "วิศวกรควบคุมคุณภาพ", 567, 51.0, 18.5, 7.9, 3.5], [5, "พ.ค.", "โรงงานเกี่ยวกับสารเคมี", 821, 50.2, 17.9, 9.0, 3.6], [6, "มิ.ย.", "นักวิจัย", 420, 48.3, 16.8, 7.0, 3.1], [6, "มิ.ย.", "วิศวกรควบคุมคุณภาพ", 576, 46.7, 15.6, 8.5, 2.9], [6, "มิ.ย.", "โรงงานเกี่ยวกับสารเคมี", 904, 48.3, 17.2, 7.2, 3.1], [7, "ก.ค.", "นักวิจัย", 465, 51.3, 16.0, 8.7, 2.7], [7, "ก.ค.", "วิศวกรควบคุมคุณภาพ", 638, 48.2, 16.2, 8.9, 2.6], [7, "ก.ค.", "โรงงานเกี่ยวกับสารเคมี", 949, 47.4, 14.9, 8.0, 2.9], [8, "ส.ค.", "นักวิจัย", 470, 46.0, 14.1, 7.7, 2.6], [8, "ส.ค.", "วิศวกรควบคุมคุณภาพ", 734, 50.1, 14.3, 8.2, 2.6], [8, "ส.ค.", "โรงงานเกี่ยวกับสารเคมี", 983, 51.4, 14.9, 8.7, 2.7], [9, "ก.ย.", "นักวิจัย", 507, 48.4, 12.4, 8.3, 2.0], [9, "ก.ย.", "วิศวกรควบคุมคุณภาพ", 672, 47.3, 12.5, 7.7, 2.0], [9, "ก.ย.", "โรงงานเกี่ยวกับสารเคมี", 1028, 46.9, 12.4, 7.7, 2.0], [10, "ต.ค.", "นักวิจัย", 575, 49.7, 11.4, 7.5, 1.9], [10, "ต.ค.", "วิศวกรควบคุมคุณภาพ", 743, 46.7, 12.8, 9.0, 2.0], [10, "ต.ค.", "โรงงานเกี่ยวกับสารเคมี", 1173, 46.5, 11.3, 7.7, 1.8], [11, "พ.ย.", "นักวิจัย", 599, 47.0, 10.0, 8.9, 1.7], [11, "พ.ย.", "วิศวกรควบคุมคุณภาพ", 752, 49.3, 10.1, 8.1, 2.0], [11, "พ.ย.", "โรงงานเกี่ยวกับสารเคมี", 1306, 50.2, 10.5, 7.7, 1.5], [12, "ธ.ค.", "นักวิจัย", 622, 49.2, 10.5, 7.7, 1.3], [12, "ธ.ค.", "วิศวกรควบคุมคุณภาพ", 877, 51.9, 10.6, 8.6, 1.6], [12, "ธ.ค.", "โรงงานเกี่ยวกับสารเคมี", 1343, 47.4, 9.9, 7.7, 1.2]], "rev": [[1, "ม.ค.", 172, 86, 38], [2, "ก.พ.", 205, 127, 45], [3, "มี.ค.", 231, 158, 57], [4, "เม.ย.", 244, 176, 55], [5, "พ.ค.", 263, 205, 65], [6, "มิ.ย.", 296, 245, 70], [7, "ก.ค.", 314, 275, 72], [8, "ส.ค.", 337, 307, 85], [9, "ก.ย.", 360, 330, 85], [10, "ต.ค.", 383, 357, 97], [11, "พ.ย.", 408, 388, 99], [12, "ธ.ค.", 429, 424, 103]]};
+const cs=getComputedStyle(document.documentElement);const col=n=>cs.getPropertyValue(n).trim();
+Chart.defaults.font.family="'Noto Sans Thai',sans-serif";Chart.defaults.color=col('--mut');Chart.defaults.maintainAspectRatio=false;
+const sel=document.getElementById('seg');sel.innerHTML='<option value="all">ทุกกลุ่ม</option>'+D.segs.map(s=>`<option>${s}</option>`).join('');
+const sum=a=>a.reduce((x,y)=>x+y,0),avg=a=>a.length?sum(a)/a.length:0;
+let ch={};
+function mk(id,cfg){if(ch[id])ch[id].destroy();ch[id]=new Chart(document.getElementById(id),cfg)}
+function agg(rows){return D.months.map((m,i)=>{const r=rows.filter(x=>x[0]==i+1);const n=sum(r.map(x=>x[3]));
+ const w=k=>n?sum(r.map(x=>x[3]*x[k]))/n:0;return{n,mt:w(4),at:w(5),me:w(6),ae:w(7)}})}
+function render(){
+ const rows=sel.value=='all'?D.lab:D.lab.filter(x=>x[2]==sel.value);const a=agg(rows);
+ const A=col('--acc'),B=col('--bad'),H=col('--hi');
+ const mt=avg(a.map(x=>x.mt)),at=avg(a.slice(-3).map(x=>x.at)),me=avg(a.map(x=>x.me)),ae=avg(a.slice(-3).map(x=>x.ae));
+ document.getElementById('kpis').innerHTML=
+ `<div class="kpi hi"><b>${Math.round((1-at/mt)*100)}%</b><span>เวลาวิเคราะห์ที่ลดลง (ไตรมาสล่าสุด เทียบการตรวจด้วยมือ)</span></div>
+  <div class="kpi"><b>${ae.toFixed(1)}%</b><span>อัตราผิดพลาดของ AI (เดิม ${me.toFixed(1)}%)</span></div>
+  <div class="kpi"><b>${sum(a.map(x=>x.n)).toLocaleString()}</b><span>ตัวอย่างที่วิเคราะห์ในปี 2025</span></div>`;
+ mk('c1',{type:'bar',data:{labels:D.months,datasets:[{label:'ตรวจด้วยมือ (ชม.)',data:a.map(x=>x.mt),backgroundColor:B},{label:'ใช้ AI (ชม.)',data:a.map(x=>x.at),backgroundColor:A}]},options:{plugins:{title:{display:true,text:'เวลาต่อชุดตัวอย่าง (ชั่วโมง)'}}}});
+ mk('c2',{type:'line',data:{labels:D.months,datasets:[{label:'ตรวจด้วยมือ',data:a.map(x=>x.me),borderColor:B,tension:.3},{label:'ใช้ AI',data:a.map(x=>x.ae),borderColor:A,tension:.3}]},options:{plugins:{title:{display:true,text:'อัตราผิดพลาด (%)'}}}});
+ mk('c3',{data:{labels:D.months,datasets:[{type:'bar',label:'จำนวนตัวอย่าง',data:a.map(x=>x.n),backgroundColor:H,yAxisID:'y'},{type:'line',label:'อัตราผิดพลาด AI (%)',data:a.map(x=>x.ae),borderColor:A,yAxisID:'y1',tension:.3}]},options:{scales:{y:{title:{display:true,text:'ตัวอย่าง'}},y1:{position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'% ผิดพลาด'}}}}});
+}
+const tot=D.segs.map(s=>sum(D.lab.filter(x=>x[2]==s).map(x=>x[3])));
+const pal=['#d8db6a','#0f5c4d','#c2410c'];
+mk('c4',{type:'doughnut',data:{labels:D.segs,datasets:[{data:tot,backgroundColor:pal,borderWidth:0}]},options:{plugins:{title:{display:true,text:'ตัวอย่างแยกตามกลุ่มลูกค้า'}}}});
+mk('c5',{type:'bar',data:{labels:D.segs,datasets:[{label:'ชั่วโมงที่ประหยัดได้ต่อชุด',data:D.segs.map(s=>{const r=D.lab.filter(x=>x[2]==s);return avg(r.map(x=>x[4]-x[5]))}),backgroundColor:pal}]},options:{plugins:{legend:{display:false},title:{display:true,text:'เวลาที่ประหยัดได้เฉลี่ย (ชม./ชุด)'}}}});
+const R=D.rev;
+mk('c6',{type:'bar',data:{labels:D.months,datasets:[{label:'สมาชิกรายเดือน/ปี',data:R.map(x=>x[2]),backgroundColor:'#0f5c4d'},{label:'จ่ายตามการใช้งาน (API)',data:R.map(x=>x[3]),backgroundColor:'#d8db6a'},{label:'ปรับแต่ง/เชื่อมระบบ',data:R.map(x=>x[4]),backgroundColor:'#c2410c'}]},options:{scales:{x:{stacked:true},y:{stacked:true}}}});
+sel.onchange=render;render();
+</script></body></html>
